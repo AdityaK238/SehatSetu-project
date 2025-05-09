@@ -6,15 +6,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Prepare data to send to the Python API
     $dataToSend = [
-        'message' => $userMessage,
-        'user' => [
-            'email' => $userEmail,
-            'usertype' => $userType
-        ]
+        'message' => $userMessage,  
+        // 'user' => [
+        //     'email' => $userEmail,
+        //     'usertype' => $userType
+        // ]
     ];
 
     // Call your Python API (using cURL)
-    $pythonApiUrl = "http://localhost:5000/chat"; // Replace with your Python API endpoint
+    $pythonApiUrl = "https://d08a-34-106-56-39.ngrok-free.app/chat"; // Replace with your Python API endpoint
     $ch = curl_init($pythonApiUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
@@ -172,7 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Default chatbot message -->
             <div class="message bot">
                 <div class="content">
-                    You can ask anything related to this application, schedules, or how to book an appointment and more.
+                    How can i help you?
                 </div>
             </div>
         </div>
@@ -210,10 +210,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     usertype: userType 
                 }),
             })
-            .then(response => response.json())
-            .then(data => {
+            .then(response => response.text())
+            .then(text => {
                 // Append chatbot reply
-                appendMessage("bot", data.reply);
+                appendMessage("bot", text);
             })
             .catch(error => {
                 appendMessage("bot", "Sorry, something went wrong.");
